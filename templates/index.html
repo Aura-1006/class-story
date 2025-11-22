@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Story</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Class Story Characters</h1>
+
+<div class="container">
+    {% for c in characters %}
+    <div class="card">
+        {% if c.image %}
+        <img src="{{ url_for('static', filename='uploads/' + c.image) }}" alt="Character image">
+        {% endif %}
+        <h3>{{ c.name }}</h3>
+        <p>{{ c.bio }}</p>
+    </div>
+    {% endfor %}
+</div>
+23 <div style="text-align:center; margin-top:40px;">
+24     <a class="button" href="{{ url_for('add_character') }}">+ Add New Character</a>
+25 </div>
+
+
+</div>
+
+</body>
+</html>
+
