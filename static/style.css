@@ -1,102 +1,70 @@
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
+    padding: 0;
+    background: #0a0d1a;
+    background-image: radial-gradient(white, 1px, transparent 1px),
+                      radial-gradient(white, 1px, transparent 1px),
+                      radial-gradient(#4f7cff, 1px, transparent 1px),;
+background-size: 2px 2px, 3px 3px, 1px 1px;
+background-position: 0 0, 40px 60px, 130px 230px;
+color: #e6e9f2;
+    font-family:'Inter', sans-serif;
+}
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: rgda(10,13,26,0.7);
     padding: 20px;
-    background: #f6f7fb; /* hafif temiz bir arka plan */
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 3px 0 12px rgda(0,0,0,0.35);
 }
-
-h1 {
+.sidebar {
+    color: #7bc4ff;
     text-align: center;
-    color: #040f27;
+    margin-bottom: 20px;
 }
-
-/* ---- Kart liste alanı ---- */
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+.menu-item {
+    padding: 12px 15px ;
+    background: #111629;
+    border: radius 12px;
+    margin-bottom: 12px ;
+    cursor:pointer ;
+    transition: 0.25s ease ;
 }
-
-/* ---- Kart ---- */
-.card {
-    background-color: cornflowerblue;
-    border-radius: 12px;
-    width: 260px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(50, 50, 70, 0.25);
-    text-align: center;
-    color: white;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-/* Kart Hover (çok cool duruyor) */
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 18px rgba(30, 30, 40, 0.3);
-}
-
-/* Kart içindeki resim */
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+ menu-item:hover {
+    background: #1a1f33;
+    box-shadow: 0 0 12px rgba(79, 124, 255, 0.4);
+    transform: translateX(4px);
+ }
+ .main-content {
+    margin-left: 240px;
+    padding: 25px;
+ }
+ .card {
+    background: rgba(17, 22, 41, 0.7);
+    padding: 22px;
+    border-radius: 16px;
+margin-bottom: 20px;
+box-shadow: 0 0 15px rgba(79, 124, 255, 0.3);
+backdrop-filter: blur(4px);
+transition: 0.25s;
+ }
+ .card:hover {
+    box-shadow: 0 0 22px rgba(79, 124, 255, 0.25);
+    transform: translateY(-3px);
+ }
+ .btn { 
+    background: #4f7cff;
+    padding: 10px 16px;
     border-radius: 10px;
-}
-
-/* ---- Buton ---- */
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #040f27;
-    color: ghostwhite;
+    color: white;
     text-decoration: none;
-    border-radius: 6px;
-    margin: 20px auto;
-    transition: backgroud 0.2s ease, transform 0.2s ease;
-}
-
-.button:hover {
-    background-color: #0b1a3d;
-    transform: translateY(-2px);
-}
-
-/* ---- Form ---- */
-form {
-    max-width: 400px;
-    margin: auto;
-    background: ghostwhite;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
-
-/* Inputlar */
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-/* Submit butonu */
-input[type="submit"] {
-    background-color: #040f27;
-    color: ghostwhite;
-    border: none;
-    cursor: pointer;
-    transition: backgroud 0.2s ease;
-}
-
-input[type="submit"]:hover {
-    background-color: #0b1a3d;
-}
-
-/* Mobil uyum */
-@media (max-width: 600px) {
-    .card {
-        width: 90%;
-    }
-}
-
+    display: inline-block;
+    transition: 0.25px;
+ }
+ .btn:hover {
+    background: #6f94ff;
+    box-shadow: 0 0 10px rgba(79, 124, 255, 0.25);
+ }
