@@ -1,70 +1,52 @@
 body {
-    margin: 0;
-    padding: 0;
-    background: #0a0d1a;
-    background-image: radial-gradient(white, 1px, transparent 1px),
-                      radial-gradient(white, 1px, transparent 1px),
-                      radial-gradient(#4f7cff, 1px, transparent 1px),;
-background-size: 2px 2px, 3px 3px, 1px 1px;
-background-position: 0 0, 40px 60px, 130px 230px;
-color: #e6e9f2;
-    font-family:'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #000a1a;
+  color: white;
+  font-family: Arial, sans-serif;
 }
+
+
 .sidebar {
-    width: 240px;
-    height: 100vh;
-    background: rgda(10,13,26,0.7);
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    box-shadow: 3px 0 12px rgda(0,0,0,0.35);
+  width: 220px;
+  height: 100vh;
+  background: rgba(0, 0, 40, 0.8);
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
 }
-.sidebar {
-    color: #7bc4ff;
-    text-align: center;
-    margin-bottom: 20px;
+
+.sidebar a {
+  display: block;
+  padding: 12px;
+  margin-bottom: 10px;
+  color: #a9d0ff;
+  text-decoration: none;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  transition: 0.2s;
 }
-.menu-item {
-    padding: 12px 15px ;
-    background: #111629;
-    border: radius 12px;
-    margin-bottom: 12px ;
-    cursor:pointer ;
-    transition: 0.25s ease ;
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.15);
 }
- menu-item:hover {
-    background: #1a1f33;
-    box-shadow: 0 0 12px rgba(79, 124, 255, 0.4);
-    transform: translateX(4px);
- }
- .main-content {
-    margin-left: 240px;
-    padding: 25px;
- }
- .card {
-    background: rgba(17, 22, 41, 0.7);
-    padding: 22px;
-    border-radius: 16px;
-margin-bottom: 20px;
-box-shadow: 0 0 15px rgba(79, 124, 255, 0.3);
-backdrop-filter: blur(4px);
-transition: 0.25s;
- }
- .card:hover {
-    box-shadow: 0 0 22px rgba(79, 124, 255, 0.25);
-    transform: translateY(-3px);
- }
- .btn { 
-    background: #4f7cff;
-    padding: 10px 16px;
-    border-radius: 10px;
-    color: white;
-    text-decoration: none;
-    display: inline-block;
-    transition: 0.25px;
- }
- .btn:hover {
-    background: #6f94ff;
-    box-shadow: 0 0 10px rgba(79, 124, 255, 0.25);
- }
+
+
+.main {
+  margin-left: 240px;
+  padding: 20px;
+}
+
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.1);
+}
+
+    
+ 
