@@ -1,29 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <title>Characters</title>
+    <meta charset="UTF-8">
+    <title>Class Story</title>
+
+    <!-- Connect CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <div class="sidebar">
-  <a href="/">Home</a>
-  <a href="/stories">Stories</a>
-  <a href="/liked">Liked</a>
-  <a href="/saved">Saved</a>
-  <a href="/profile">Profile</a>
-  <a href="/add">Create</a>
+    <h2>Menu</h2>
+    <a href="/">Home</a>
+    <a href="#">Stories</a>
+    <a href="#">Liked</a>
+    <a href="#">Saved</a>
+    <a href="#">Profile</a>
+    <a href="/add_character">Create</a>
 </div>
 
-<div class="main">
-  <h1>Characters</h1>
+<div class="content">
+    <h1>Characters</h1>
 
-  {% for item in items %}
-  <div class="card">
-    <h3>{{ item.name }}</h3>
-    <p>{{ item.description }}</p>
-  </div>
-  {% endfor %}
+    <div class="cards">
+        {% for character in characters %}
+        <div class="card">
+            {% if character.image %}
+                <img src="{{ url_for('static', filename='uploads/' + character.image) }}" alt="Character Image">
+            {% endif %}
+
+            <h3>{{ character.name }}</h3>
+            <p>{{ character.bio }}</p>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 </body>
