@@ -1,28 +1,42 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Add Character</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>Add Character</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
-<h1>Add New Character</h1>
 
-<form method="POST" enctype="multipart/form-data">
+  <div class="add-page">
 
-    <label>Name</label>
-    <input type="text" name="name">
+    <h1>Add New Character</h1>
 
-    <label>Bio</label>
-    <textarea name="bio"></textarea>
+    <form method="POST" enctype="multipart/form-data" class="add-form">
 
-    <label>Image</label>
-    <input type="file" name="image">
+      
+      <div class="form-left">
+        <label>Name</label>
+        <input type="text" name="name">
 
-    <button type="submit">Save</button>
+        <label>Bio</label>
+        <textarea name="bio"></textarea>
+      </div>
 
-</form>
+      
+      <div class="form-right">
+        <label>Image</label>
+        <input type="file" name="image">
+      </div>
+
+      
+      <button type="submit" class="save-btn">Save</button>
+
+    </form>
+
+  </div>
 
 </body>
 </html>
