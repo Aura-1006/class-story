@@ -1,3 +1,5 @@
 Flask
 Werkzeug
 gunicorn
+Pillow
+Flask-WTF

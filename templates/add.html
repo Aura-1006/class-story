@@ -1,42 +1,45 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Add Character</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Create Character</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-
-
-  <div class="add-page">
-
-    <h1>Add New Character</h1>
-
-    <form method="POST" enctype="multipart/form-data" class="add-form">
-
-      
-      <div class="form-left">
-        <label>Name</label>
-        <input type="text" name="name">
-
-        <label>Bio</label>
-        <textarea name="bio"></textarea>
-      </div>
-
-      
-      <div class="form-right">
-        <label>Image</label>
-        <input type="file" name="image">
-      </div>
-
-      
-      <button type="submit" class="save-btn">Save</button>
-
-    </form>
-
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <a href="/">Home</a>
+    <a href="/stories">Stories</a>
+    <a href="/liked">Liked</a>
+    <a href="/profile">Profile</a>
+    <a href="/create">Create</a>
   </div>
 
+  <div class="main form-page">
+    <h1 class="page-title">Create Character</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="form-stack">
+      {{ csrf_token() }}
+      <div class="panel">
+        <label class="label">Character Name</label>
+        <input type="text" name="name" required>
+      </div>
+
+      <div class="panel">
+        <label class="label">Character Bio</label>
+        <textarea name="bio" rows="6"></textarea>
+      </div>
+
+      <div class="panel">
+        <label class="label">Image</label>
+        <input type="file" name="image" accept="image/*">
+      </div>
+
+      <div class="panel">
+        <button type="submit" class="save-btn">Create Character</button>
+      </div>
+    </form>
+  </div>
 </body>
 </html>

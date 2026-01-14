@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Create Story</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <a href="/">Home</a>
+    <a href="/stories">Stories</a>
+    <a href="/liked">Liked</a>
+    <a href="/profile">Profile</a>
+    <a href="/create">Create</a>
+  </div>
+
+  <div class="main form-page">
+    <h1 class="page-title">Create Story</h1>
+
+    <form method="POST" class="form-stack">
+      {{ csrf_token() }}
+      <div class="panel">
+        <label class="label">Story Title</label>
+        <input type="text" name="title" required>
+      </div>
+
+      <div class="panel">
+        <label class="label">Content</label>
+        <textarea name="content" rows="8"></textarea>
+      </div>
+
+      <div class="panel">
+        <label class="label">Characters (choose multiple if needed)</label>
+        {% for c in characters %}
+          <label style="display:block"><input type="checkbox" name="characters" value="{{ c.name }}"> {{ c.name }}</label>
+        {% else %}
+          <div>No characters yet. Create one first.</div>
+        {% endfor %}
+      </div>
+
+      <div class="panel">
+        <button type="submit" class="save-btn">Create Story</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stories</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <a href="/">Home</a>
+    <a href="/stories">Stories</a>
+    <a href="/liked">Liked</a>
+    <a href="/profile">Profile</a>
+    <a href="/create">Create</a>
+  </div>
+
+  <div class="main">
+    <h1 class="page-title">Stories</h1>
+    <div style="display:grid;gap:14px">
+      {% for s in stories %}
+        <div class="panel">
+          <h3 style="color:var(--text);margin:0 0 8px 0">{{ s.title }}</h3>
+          <p style="margin:0 0 8px 0">{{ s.content }}</p>
+          <div style="font-size:0.9em;color:rgba(214,214,255,0.8)">Characters: {{ s.characters | join(', ') }}</div>
+        </div>
+      {% else %}
+        <div>No stories yet. Create one!</div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

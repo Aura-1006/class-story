@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Class Story</title>
-
-    
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -12,29 +11,68 @@
 <div class="sidebar">
     <h2>Menu</h2>
     <a href="/">Home</a>
-    <a href="#">Stories</a>
-    <a href="#">Liked</a>
-    <a href="#">Saved</a>
-    <a href="#">Profile</a>
-    <a href="/add_character">Create</a>
+    <a href="/stories">Stories</a>
+    <a href="/liked">Liked</a>
+    <a href="/profile">Profile</a>
+    <a href="/create">Create</a>
 </div>
 
-<div class="content">
-    <h1>Characters</h1>
-
-    <div class="cards">
-        {% for character in characters %}
-        <div class="card">
-            {% if character.image %}
-                <img src="{{ url_for('static', filename='uploads/' + character.image) }}" alt="Character Image">
-            {% endif %}
-
-            <h3>{{ character.name }}</h3>
-            <p>{{ character.bio }}</p>
-        </div>
-        {% endfor %}
-    </div>
+<div class="main">
+    <h1 class="page-title">Characters</h1>
+    <div id="cards" class="cards"></div>
+    <div id="loader" class="loader">Yükleniyor...</div>
 </div>
+
+<script>
+let page = 1;
+const perPage = 6;
+const cardsEl = document.getElementById('cards');
+const loader = document.getElementById('loader');
+let loading = false;
+let hasMore = true;
+
+function createCard(c){
+  const el = document.createElement('div');
+  el.className = 'card';
+  if(c.image){
+    const img = document.createElement('img');
+    img.src = '/static/uploads/' + c.image;
+    img.alt = c.name;
+    el.appendChild(img);
+    const dl = document.createElement('a');
+    dl.href = '/download/' + c.image;
+    dl.textContent = 'Download';
+    dl.className = 'download-link';
+    el.appendChild(dl);
+  }
+  const h3 = document.createElement('h3'); h3.textContent = c.name; el.appendChild(h3);
+  const p = document.createElement('p'); p.textContent = c.bio; el.appendChild(p);
+  return el;
+}
+
+async function loadNext(){
+  if(loading || !hasMore) return;
+  loading = true;
+  loader.textContent = 'Yükleniyor...';
+  try{
+    const res = await fetch('/api/characters?page=' + page + '&per_page=' + perPage);
+    const data = await res.json();
+    data.characters.forEach(c => cardsEl.appendChild(createCard(c)));
+    hasMore = data.has_more;
+    page += 1;
+    if(!hasMore){ loader.textContent = 'Daha fazla yok'; }
+  }catch(e){ console.error(e); loader.textContent = 'Hata oluştu'; }
+  loading = false;
+}
+
+const observer = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting) loadNext();
+}, {root: null, rootMargin: '0px', threshold: 1.0});
+observer.observe(loader);
+
+// initial load
+loadNext();
+</script>
 
 </body>
 </html>
