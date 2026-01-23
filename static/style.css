@@ -30,7 +30,7 @@ body{
   color: #a9d0ff;
   text-decoration: none;
   background: rgba(255,255,255,0.05);
-  border-radius: 8px;
+  border-radius: 15px;
   transition: 0.2s;
 }
 
@@ -53,48 +53,49 @@ body{
   box-shadow: 0 0 15px rgba(255,255,255,0.1);
 }
 
- add.-page {
-  margin-left: 240px;
-  padding: 20px;
- } 
- add.title {
-  margin-bottom: 30px;
- }
- add.form{ 
-  display: 1;
-  gap: 30px;
- }
- .add-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
- }
- .add-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
- }
- .add-right inpu[type="file"] {
- height: 200px; 
- }
+input[type="text"], input[type="file"], textarea {
+  border-radius: 15px;
+  padding: 10px;
+  border: 1px solid #c7a8ff;
+  background: rgba(255,255,255,0.1);
+  color: #d6d6ff;
+  width: 100%;
+  box-sizing: border-box;
+}
  .save-btn {
   margin-top: auto;
   padding: 12px;
-  background: #4f7cff;
+  background: #e6e6fa;
   border: none;
-  border-radius: 8px;
-  color: white;
+  border-radius: 15px;
+  color: #120016;
   cursor: pointer;
  }
  .big-cta {
   display:block;
   padding:20px;
-  border-radius:10px;
-  background:var(--accent);
-  color:var(--text);
+  border-radius:15px;
+  background:#e6e6fa;
+  color:#120016;
   text-decoration:none;
   text-align:center;
   font-weight:700;
+ }
+ .like-btn {
+  padding: 8px 16px;
+  background: #e6e6fa;
+  border: none;
+  border-radius: 15px;
+  color: #120016;
+  cursor: pointer;
+  font-size: 0.9em;
+ }
+ .profile-btn {
+  padding: 12px 24px;
+  background: #e6e6fa;
+  border: none;
+  border-radius: 15px;
+  color: #120016;
+  cursor: pointer;
+  font-size: 1em;
  }

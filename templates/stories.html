@@ -24,6 +24,7 @@
           <h3 style="color:var(--text);margin:0 0 8px 0">{{ s.title }}</h3>
           <p style="margin:0 0 8px 0">{{ s.content }}</p>
           <div style="font-size:0.9em;color:rgba(214,214,255,0.8)">Characters: {{ s.characters | join(', ') }}</div>
+          <button class="like-btn">Like</button>
         </div>
       {% else %}
         <div>No stories yet. Create one!</div>
