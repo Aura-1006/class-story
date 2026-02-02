@@ -16,6 +16,13 @@ ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "gif"}
 
 characters = []
 stories = []
+user_profile = {
+    "nicename": "Kullanıcı",
+    "bio": "Hoş geldiniz!",
+    "profile_image": None,
+    "liked_stories": [],
+    "liked_characters": []
+}
 
 
 def allowed_file(filename):
@@ -106,6 +113,38 @@ def add_story():
     return render_template("add_story.html", characters=characters)
 
 
+@app.route("/api/like_character/<character_id>", methods=["POST"])
+def like_character(character_id):
+    global user_profile
+    if character_id not in user_profile["liked_characters"]:
+        user_profile["liked_characters"].append(character_id)
+    return jsonify({"success": True})
+
+
+@app.route("/api/unlike_character/<character_id>", methods=["POST"])
+def unlike_character(character_id):
+    global user_profile
+    if character_id in user_profile["liked_characters"]:
+        user_profile["liked_characters"].remove(character_id)
+    return jsonify({"success": True})
+
+
+@app.route("/api/like_story/<story_id>", methods=["POST"])
+def like_story(story_id):
+    global user_profile
+    if story_id not in user_profile["liked_stories"]:
+        user_profile["liked_stories"].append(story_id)
+    return jsonify({"success": True})
+
+
+@app.route("/api/unlike_story/<story_id>", methods=["POST"])
+def unlike_story(story_id):
+    global user_profile
+    if story_id in user_profile["liked_stories"]:
+        user_profile["liked_stories"].remove(story_id)
+    return jsonify({"success": True})
+
+
 @app.route("/download/<filename>")
 def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
@@ -118,7 +157,27 @@ def liked():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    return render_template("profile.html", profile=user_profile, characters=characters, stories=stories)
+
+
+@app.route("/update_profile", methods=["POST"])
+def update_profile():
+    global user_profile
+    
+    nicename = request.form.get("nicename", user_profile["nicename"])
+    bio = request.form.get("bio", user_profile["bio"])
+    
+    user_profile["nicename"] = nicename
+    user_profile["bio"] = bio
+    
+    # Handle profile image upload
+    if "profile_image" in request.files:
+        image_file = request.files.get("profile_image")
+        filename = save_image(image_file)
+        if filename:
+            user_profile["profile_image"] = filename
+    
+    return redirect(url_for("profile"))
 
 
 if __name__ == "__main__":

@@ -5,6 +5,219 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Profile</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .profile-container {
+      max-width: 600px;
+    }
+
+    .profile-header {
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .profile-image-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--accent);
+      overflow: hidden;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-image.empty {
+      font-size: 3em;
+      color: var(--muted);
+    }
+
+    .edit-form {
+      display: grid;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group input[type="file"] {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--accent);
+      background: rgba(255,255,255,0.1);
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+    }
+
+    .form-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .file-input-label {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: var(--bg);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .file-input-label:hover {
+      background: rgba(199,168,255,0.8);
+    }
+
+    .hidden-input {
+      display: none;
+    }
+
+    .profile-info {
+      display: grid;
+      gap: 10px;
+    }
+
+    .info-item {
+      display: grid;
+      gap: 5px;
+    }
+
+    .info-label {
+      font-size: 0.9em;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .info-value {
+      color: var(--muted);
+      word-break: break-word;
+    }
+
+    .section-title {
+      color: var(--accent);
+      font-size: 1.2em;
+      margin: 30px 0 15px 0;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 10px;
+    }
+
+    .items-grid {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .item-card {
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      border-radius: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .item-card h4 {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .item-card p {
+      margin: 0;
+      font-size: 0.9em;
+      color: var(--muted);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .save-btn, .edit-btn, .cancel-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      flex: 1;
+      text-align: center;
+    }
+
+    .save-btn {
+      background: #e6e6fa;
+      color: #120016;
+    }
+
+    .save-btn:hover {
+      background: rgba(230,230,250,0.8);
+    }
+
+    .edit-btn {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .edit-btn:hover {
+      background: rgba(199,168,255,0.8);
+    }
+
+    .cancel-btn {
+      background: rgba(255,255,255,0.2);
+      color: var(--muted);
+    }
+
+    .cancel-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .view-mode, .edit-mode {
+      display: none;
+    }
+
+    .view-mode.active, .edit-mode.active {
+      display: block;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
@@ -15,12 +228,206 @@
     <a href="/profile">Profile</a>
     <a href="/create">Create</a>
   </div>
+
   <div class="main">
-    <h1 class="page-title">Profile</h1>
-    <div class="panel">
-      <p>Profil sayfası - kullanıcı yönetimi henüz eklenmedi.</p>
-      <button class="profile-btn">Edit Profile</button>
+    <div class="profile-container">
+      <h1 class="page-title">Profile</h1>
+
+      <!-- View Mode -->
+      <div class="view-mode active">
+        <div class="profile-header">
+          <div class="profile-image-section">
+            <div class="profile-image {% if not profile.profile_image %}empty{% endif %}">
+              {% if profile.profile_image %}
+                <img src="/static/uploads/{{ profile.profile_image }}" alt="{{ profile.nicename }}">
+              {% else %}
+                👤
+              {% endif %}
+            </div>
+            <button class="edit-btn" onclick="toggleEditMode()">Edit Profile</button>
+          </div>
+
+          <div class="profile-info">
+            <div class="info-item">
+              <div class="info-label">Username</div>
+              <div class="info-value" id="nicenameDisplay" style="font-size: 1.3em; font-weight: bold; cursor: pointer; padding: 10px; border-radius: 8px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'" onclick="editNicename()">
+                {{ profile.nicename }}
+              </div>
+              <div id="nicenameEditForm" style="display: none; gap: 10px;">
+                <input type="text" id="nicenameInput" value="{{ profile.nicename }}" style="padding: 10px; border-radius: 8px; border: 1px solid var(--accent); background: rgba(255,255,255,0.1); color: var(--muted); width: 100%;">
+                <div style="display: flex; gap: 10px;">
+                  <button type="button" onclick="saveNicename()" style="flex: 1; padding: 8px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Save</button>
+                  <button type="button" onclick="cancelNicename()" style="flex: 1; padding: 8px; background: rgba(255,255,255,0.2); color: var(--muted); border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+                </div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Bio</div>
+              <div class="info-value">{{ profile.bio }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Mode -->
+      <div class="edit-mode">
+        <form method="POST" action="/update_profile" enctype="multipart/form-data" class="profile-header">
+          <div class="profile-image-section">
+            <div class="profile-image {% if not profile.profile_image %}empty{% endif %}" id="imagePreview">
+              {% if profile.profile_image %}
+                <img src="/static/uploads/{{ profile.profile_image }}" alt="{{ profile.nicename }}">
+              {% else %}
+                👤
+              {% endif %}
+            </div>
+            <div>
+              <label for="profileImageInput" class="file-input-label">
+                Fotoğraf Seç
+              </label>
+              <input type="file" id="profileImageInput" name="profile_image" accept="image/*" class="hidden-input" onchange="previewImage(event)">
+            </div>
+          </div>
+
+          <div class="edit-form">
+            <div class="form-group">
+              <label for="nicename">Username</label>
+              <input type="text" id="nicename" name="nicename" value="{{ profile.nicename }}" required>
+            </div>
+
+            <div class="form-group">
+              <label for="bio">Bio</label>
+              <textarea id="bio" name="bio" required>{{ profile.bio }}</textarea>
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="save-btn">Save</button>
+              <button type="button" class="cancel-btn" onclick="toggleEditMode()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Liked Stories Section -->
+      {% if stories %}
+      <h2 class="section-title">Beğenilen Hikayeler</h2>
+      {% if profile.liked_stories %}
+        <div class="items-grid">
+          {% for story_id in profile.liked_stories %}
+            {% set story = stories | selectattr('id', 'equalto', story_id) | first %}
+            {% if story %}
+            <div class="item-card">
+              <h4>{{ story.title }}</h4>
+              <p>{{ story.content[:100] }}...</p>
+              <p style="font-size: 0.8em; color: var(--accent);">Characters: {{ story.characters | join(', ') }}</p>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-message">Henüz beğenilen hikaye yok.</div>
+      {% endif %}
+      {% endif %}
+
+      <!-- Liked Characters Section -->
+      {% if characters %}
+      <h2 class="section-title">Beğenilen Karakterler</h2>
+      {% if profile.liked_characters %}
+        <div class="items-grid">
+          {% for char_id in profile.liked_characters %}
+            {% set character = characters | selectattr('id', 'equalto', char_id) | first %}
+            {% if character %}
+            <div class="item-card">
+              {% if character.image %}
+                <img src="/static/uploads/{{ character.image }}" alt="{{ character.name }}">
+              {% endif %}
+              <h4>{{ character.name }}</h4>
+              <p>{{ character.bio[:100] }}{% if character.bio | length > 100 %}...{% endif %}</p>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-message">Henüz beğenilen karakter yok.</div>
+      {% endif %}
+      {% endif %}
     </div>
   </div>
+
+  <script>
+    function toggleEditMode() {
+      const viewMode = document.querySelector('.view-mode');
+      const editMode = document.querySelector('.edit-mode');
+      viewMode.classList.toggle('active');
+      editMode.classList.toggle('active');
+    }
+
+    function previewImage(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById('imagePreview');
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function editNicename() {
+      document.getElementById('nicenameDisplay').style.display = 'none';
+      document.getElementById('nicenameEditForm').style.display = 'grid';
+      document.getElementById('nicenameInput').focus();
+    }
+
+    async function saveNicename() {
+      const nicenameInput = document.getElementById('nicenameInput');
+      const newNicename = nicenameInput.value.trim();
+      
+      if (!newNicename) {
+        alert('Username boş olamaz!');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('nicename', newNicename);
+      formData.append('bio', document.querySelector('.profile-info .info-value:last-child').textContent);
+
+      try {
+        const res = await fetch('/update_profile', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (res.ok) {
+          document.getElementById('nicenameDisplay').textContent = newNicename;
+          document.getElementById('nicenameDisplay').style.display = 'block';
+          document.getElementById('nicenameEditForm').style.display = 'none';
+        } else {
+          alert('Bir hata oluştu!');
+        }
+      } catch (e) {
+        console.error(e);
+        alert('Bir hata oluştu!');
+      }
+    }
+
+    function cancelNicename() {
+      document.getElementById('nicenameDisplay').style.display = 'block';
+      document.getElementById('nicenameEditForm').style.display = 'none';
+    }
+
+    // Enter tuşu ile kaydet
+    document.addEventListener('DOMContentLoaded', () => {
+      const nicenameInput = document.getElementById('nicenameInput');
+      if (nicenameInput) {
+        nicenameInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            saveNicename();
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

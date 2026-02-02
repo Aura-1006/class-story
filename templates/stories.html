@@ -18,18 +18,46 @@
 
   <div class="main">
     <h1 class="page-title">Stories</h1>
-    <div style="display:grid;gap:14px">
+    <div style="display:grid;gap:14px" id="storiesContainer">
       {% for s in stories %}
-        <div class="panel">
+        <div class="panel" id="story-{{ s.id }}">
           <h3 style="color:var(--text);margin:0 0 8px 0">{{ s.title }}</h3>
           <p style="margin:0 0 8px 0">{{ s.content }}</p>
           <div style="font-size:0.9em;color:rgba(214,214,255,0.8)">Characters: {{ s.characters | join(', ') }}</div>
-          <button class="like-btn">Like</button>
+          <button class="like-btn" id="like-btn-{{ s.id }}" data-story-id="{{ s.id }}">🤍 Like</button>
         </div>
       {% else %}
         <div>No stories yet. Create one!</div>
       {% endfor %}
     </div>
   </div>
+
+  <script>
+    let likedStories = new Set();
+
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const storyId = btn.dataset.storyId;
+        const isLiked = likedStories.has(storyId);
+        const endpoint = isLiked ? '/api/unlike_story/' : '/api/like_story/';
+        
+        try {
+          const res = await fetch(endpoint + storyId, { method: 'POST' });
+          if (res.ok) {
+            if (isLiked) {
+              likedStories.delete(storyId);
+              btn.textContent = '🤍 Like';
+            } else {
+              likedStories.add(storyId);
+              btn.textContent = '❤️ Liked';
+            }
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

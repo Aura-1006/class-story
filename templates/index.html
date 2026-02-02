@@ -30,10 +30,13 @@ const cardsEl = document.getElementById('cards');
 const loader = document.getElementById('loader');
 let loading = false;
 let hasMore = true;
+let likedCharacters = new Set();
 
 function createCard(c){
   const el = document.createElement('div');
   el.className = 'card';
+  el.id = 'card-' + c.id;
+  
   if(c.image){
     const img = document.createElement('img');
     img.src = '/static/uploads/' + c.image;
@@ -45,9 +48,47 @@ function createCard(c){
     dl.className = 'download-link';
     el.appendChild(dl);
   }
-  const h3 = document.createElement('h3'); h3.textContent = c.name; el.appendChild(h3);
-  const p = document.createElement('p'); p.textContent = c.bio; el.appendChild(p);
+  
+  const h3 = document.createElement('h3'); 
+  h3.textContent = c.name; 
+  el.appendChild(h3);
+  
+  const p = document.createElement('p'); 
+  p.textContent = c.bio; 
+  el.appendChild(p);
+  
+  // Like button
+  const btn = document.createElement('button');
+  btn.className = 'like-btn';
+  btn.id = 'like-btn-' + c.id;
+  btn.textContent = likedCharacters.has(c.id) ? '❤️ Liked' : '🤍 Like';
+  btn.onclick = (e) => {
+    e.preventDefault();
+    toggleLike(c.id, btn);
+  };
+  el.appendChild(btn);
+  
   return el;
+}
+
+async function toggleLike(characterId, btn) {
+  const isLiked = likedCharacters.has(characterId);
+  const endpoint = isLiked ? '/api/unlike_character/' : '/api/like_character/';
+  
+  try {
+    const res = await fetch(endpoint + characterId, { method: 'POST' });
+    if (res.ok) {
+      if (isLiked) {
+        likedCharacters.delete(characterId);
+        btn.textContent = '🤍 Like';
+      } else {
+        likedCharacters.add(characterId);
+        btn.textContent = '❤️ Liked';
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function loadNext(){
