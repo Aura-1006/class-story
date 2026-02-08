@@ -12,9 +12,17 @@
     <h2>Menu</h2>
     <a href="/">Home</a>
     <a href="/stories">Stories</a>
-    <a href="/liked">Liked</a>
-    <a href="/profile">Profile</a>
-    <a href="/create">Create</a>
+    {% if current_user.is_authenticated %}
+        <a href="/liked">Liked</a>
+        <a href="/profile">Profile</a>
+        <a href="/create">Create</a>
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #ccc;">
+        <span style="font-size: 12px; color: #666;">👤 {{ current_user.username }}</span>
+        <a href="/logout" style="background: #dc3545; margin-top: 10px;">Çıkış Yap</a>
+    {% else %}
+        <a href="/login" style="background: #007bff;">Giriş Yap</a>
+        <a href="/register" style="background: #28a745; margin-top: 10px;">Kayıt Ol</a>
+    {% endif %}
 </div>
 
 <div class="main">
