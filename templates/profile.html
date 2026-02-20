@@ -6,7 +6,217 @@
   <title>Profile</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
-  
+     .profile-container {
+      max-width: 600px;
+    }
+
+    .profile-header {
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .profile-image-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--accent);
+      overflow: hidden;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-image.empty {
+      font-size: 3em;
+      color: var(--muted);
+    }
+
+    .edit-form {
+      display: grid;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group input[type="file"] {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--accent);
+      background: rgba(255,255,255,0.1);
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+    }
+
+    .form-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .file-input-label {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: var(--bg);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .file-input-label:hover {
+      background: rgba(199,168,255,0.8);
+    }
+
+    .hidden-input {
+      display: none;
+    }
+
+    .profile-info {
+      display: grid;
+      gap: 10px;
+    }
+
+    .info-item {
+      display: grid;
+      gap: 5px;
+    }
+
+    .info-label {
+      font-size: 0.9em;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .info-value {
+      color: var(--muted);
+      word-break: break-word;
+    }
+
+    .section-title {
+      color: var(--accent);
+      font-size: 1.2em;
+      margin: 30px 0 15px 0;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 10px;
+    }
+
+    .items-grid {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .item-card {
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      border-radius: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .item-card h4 {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .item-card p {
+      margin: 0;
+      font-size: 0.9em;
+      color: var(--muted);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .save-btn, .edit-btn, .cancel-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      flex: 1;
+      text-align: center;
+    }
+
+    .save-btn {
+      background: #e6e6fa;
+      color: #120016;
+    }
+
+    .save-btn:hover {
+      background: rgba(230,230,250,0.8);
+    }
+
+    .edit-btn {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .edit-btn:hover {
+      background: rgba(199,168,255,0.8);
+    }
+
+    .cancel-btn {
+      background: rgba(255,255,255,0.2);
+      color: var(--muted);
+    }
+
+    .cancel-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .view-mode, .edit-mode {
+      display: none;
+    }
+
+    .view-mode.active, .edit-mode.active {
+      display: block;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
